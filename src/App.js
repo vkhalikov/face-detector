@@ -1,26 +1,92 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Nav from './components/Nav';
+import Form from './components/Form';
+import Presenter from './components/Presenter';
+import Particles from 'react-particles-js';
+import ParticlesOptions from './assets/particles-options';
+import clarifaiAPI, {getRegions, hasDetectedFace} from './assets/clarifai';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: '',
+      imgSrc: '',
+      clarifaiRegions: null,
+      presenterState: 'default',
+      errorType: null
+    }
+  }
+
+  handleInputChange = (event) => {
+    this.setState({ input: event.target.value })
+  }
+
+  handleSubmit = () => {
+    if (!this.state.input) return;
+    this.setState( (state) => ({
+      imgSrc: state.input, 
+      presenterState: 'loading'
+    }));
+
+    clarifaiAPI.models
+    .predict(
+      "c0c0ac362b03416da06ab3fa36fb58e3", 
+      this.state.input
+    ).then( 
+      (response) => {
+        if ( hasDetectedFace(response) ) {
+          const regions = getRegions(response);
+
+          this.setState({
+            presenterState: 'loaded',
+            clarifaiRegions: regions,
+            errorType: null
+          });
+        } else {
+          this.setState({
+            presenterState: 'error',
+            errorType: 'NO_FACE_DETECTED'
+          });
+        } 
+      },
+      (reject) => {
+        this.setState({
+          presenterState: 'error',
+          errorType: 'BAD_REQUEST'
+        });
+      }
+    );
+  }
+
+  handleEnterPressOnInput = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSubmit();
+    }
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+      <Nav />
+      <Form 
+      value={this.state.input} 
+      handleInputChange={this.handleInputChange}
+      handleEnterPressOnInput={this.handleEnterPressOnInput}
+      handleSubmit={this.handleSubmit}
+      />
+      <Presenter 
+      imgSrc={this.state.imgSrc}
+      presenterState={this.state.presenterState}  
+      clarifaiRegions={this.state.clarifaiRegions}
+      errorType={this.state.errorType}
+      />
+
+      <Particles className="particles" params={ParticlesOptions} />
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
