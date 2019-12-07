@@ -1,5 +1,6 @@
 import React from 'react';
-import ButtonCircle from './ButtonCircle'
+import ButtonCircle from './ButtonCircle';
+import InputFile from './InputFile';
 
 function Form (props) {
 	return (
@@ -13,7 +14,7 @@ function Form (props) {
 				onKeyPress={props.handleEnterPressOnInput}
 				value={props.value}
 			/>
-
+			<InputFile handleFileChange={props.handleFileChange}/>
 			<ButtonCircle text={'detect!'} handleClick={props.handleSubmit} />
 
 		</section>

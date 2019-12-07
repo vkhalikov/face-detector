@@ -113,7 +113,7 @@ ul {
 
 .button-circle a {
   position: relative;
-  transition: all .45s ease-Out;
+  transition: all .45s ease-out;
 }
 
 .button-circle__circle {
@@ -124,7 +124,7 @@ ul {
   border-radius: 50%;
   background: #fff;
   position: absolute;
-  transition: all .5s ease-Out;
+  transition: all .5s ease-out;
   top: 20px;
   left: 70px;
 }
@@ -159,6 +159,64 @@ ul {
   max-width: 100%;
   }
 }
+
+.input-file {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.input-file__label {
+  display: inline-flex;
+  height: 40px;
+  width: 150px;
+  border: 2px solid #fff;
+  margin: 20px 20px 20px 20px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.input-file__label span {
+  position: relative;
+  transition: all .45s ease-out;
+}
+
+.input-file__circle {
+  width: 0%;
+  height: 0%;
+  opacity: 0;
+  line-height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  transition: all .5s ease-out;
+  top: 20px;
+  left: 70px;
+}
+
+.input-file__label:hover .input-file__circle,
+.input-file:focus + .input-file__label .input-file__circle {
+  width: 200%;
+  height: 500%;
+  opacity: 1;
+  top: -70px;
+  left: -70px;
+}
+
+.input-file__label:hover span,
+.input-file:focus + .input-file__label span {
+  color: #2D3142;
+}
+
 /* Common */
 
 /* Navigation */
@@ -181,10 +239,6 @@ ul {
   margin: 20px;
   font-family: 'Pacifico', cursive;
   font-size: 1.5em;
-}
-
-.logo:hover {
-  cursor: pointer;
 }
 
 .logo {
@@ -251,12 +305,21 @@ ul {
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
+.form__input-file {
+  visibility: hidden;
+}
+
 .form__input:hover, .form__input:focus {
   box-shadow: 0 5px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
+
 @media screen and (max-width: 425px) {
   .input__button {
+    flex-grow: 1;
+  }
+
+  .input-file__label {
     flex-grow: 1;
   }
 }
@@ -399,6 +462,10 @@ ul {
   flex-wrap: wrap;
   justify-content: center;
   cursor: pointer;
+}
+
+.FaceBox:hover, .FaceBox-active {
+  box-shadow: 0 0 0 3px #FFC859 inset;
 }
 
 /* /Face Box */
