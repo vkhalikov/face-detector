@@ -2,8 +2,7 @@ import React from 'react';
 import {listFromFaceData} from '../assets/clarifai.js';
 
 function ListContainer(props) {
-	
-	const faceData = props.clarifaiRegions[0].data.face;
+	const faceData = props.clarifaiRegions[props.activeBox].data.face;
 	const list = listFromFaceData(faceData);
 
 	return (

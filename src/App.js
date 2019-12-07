@@ -14,6 +14,7 @@ class App extends React.Component {
       input: '',
       imgSrc: '',
       clarifaiRegions: null,
+      activeBox: null,
       presenterState: 'default',
       errorType: null
     }
@@ -42,7 +43,8 @@ class App extends React.Component {
           this.setState({
             presenterState: 'loaded',
             clarifaiRegions: regions,
-            errorType: null
+            errorType: null,
+            activeBox: "0"
           });
         } else {
           this.setState({
@@ -66,6 +68,12 @@ class App extends React.Component {
     }
   }
 
+  setActiveBox = (id) => {
+    if (this.state.activeBox !== id) {
+      this.setState({activeBox: id});
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -80,6 +88,8 @@ class App extends React.Component {
       imgSrc={this.state.imgSrc}
       presenterState={this.state.presenterState}  
       clarifaiRegions={this.state.clarifaiRegions}
+      setActiveBox={this.setActiveBox}
+      activeBox={this.state.activeBox}
       errorType={this.state.errorType}
       />
 

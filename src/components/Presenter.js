@@ -20,9 +20,12 @@ function Presenter(props) {
 										key="img" 
 										imgSrc={props.imgSrc} 
 										clarifaiRegions={props.clarifaiRegions}
+										activeBox={props.activeBox}
+										setActiveBox={props.setActiveBox}
 									/>,
 									<ListContainer 
 										key="list"
+										activeBox={props.activeBox}
 										clarifaiRegions={props.clarifaiRegions} 
 									/>]
 				break;

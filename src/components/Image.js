@@ -7,21 +7,23 @@ class Image extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLocationsCalculated: false,
 			boxes: []
 		};
 	}
 
 	render() {
-		let faceBoxes = null;
-		if (this.state.isLocationsCalculated) {
-			faceBoxes = this.state.boxes.map(item => (
+		const faceBoxes = this.state.boxes.map((item) => {
+			return (
 				<FaceBox 
 				box={item} 
 				key={item.id}
-				/>
-				));
-		}
+				id={item.id}
+				isActive={(this.props.activeBox === item.id) ? true : false}
+				setActive={this.props.setActiveBox}
+			/>
+			)
+		});
+
 		return (
 			<div className="img__container centered swing-in-top-fwd">
 				<div className="relative">
@@ -38,16 +40,15 @@ class Image extends React.Component {
 		const imageWidth = Number(image.width); 
 		const imageHeight = Number(image.height);
 
-		const result = rectangles.map( (rectangle, i) => ({
+		let result = rectangles.map( (rectangle, i) => ({
 			top: imageHeight * rectangle.top_row, 
 			left: imageWidth * rectangle.left_col,
 			bottom: imageHeight - imageHeight * rectangle.bottom_row,
 			right: imageWidth - imageWidth * rectangle.right_col,
-			id: i
+			id: String(i)
 		}));
 
 		this.setState({
-			isLocationsCalculated: true,
 			boxes: result
 		})
 	}
